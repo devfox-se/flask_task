@@ -1,0 +1,11 @@
+Flask-SQLAlchemy
+dynaconf
+flask
+flask-restful
+gunicorn
+psycopg2-binary
+Flask-Migrate
+SQLAlchemy
+flask_api
+jsonschema
+marshmallow

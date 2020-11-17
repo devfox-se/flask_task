@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres-api-task
+    restart: always
+    environment:
+      - POSTGRES_USER=user111
+      - POSTGRES_PASSWORD=pass111
+      - POSTGRES_DB=localdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  api_task:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: api_task
+    container_name: api_task
+    command: /usr/local/bin/gunicorn app:application -n task -w 1 -b 0.0.0.0:8000
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
